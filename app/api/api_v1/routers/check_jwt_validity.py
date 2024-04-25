@@ -29,7 +29,7 @@ async def check_jwt_validity(authorization_header: str | None = Depends(security
     "/v2/check-jwt-validity"
 )
 async def check_jwt_validity(authorization_header: str | None = Depends(security)):
-    """checks jwt token validity from request header.
+    """checks jwt token validity from request header. Uses in memory caching technique for certificate loading.
 
     Returns:
         Whether token is valid or not and reason.

@@ -9,7 +9,7 @@ This FastAPI API provides endpoints to validate JWT tokens from request headers.
 1. Clone this repository:
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/RashedulAlam/python-jwt-validation.git
     ```
 
 2. Install the required dependencies:
@@ -87,7 +87,7 @@ Authorization: Bearer <VALID_JWT_TOKEN>
 
 ```http
 GET /v1/check-jwt-validity
-Authorization: Bearer <INVALID_JWT_TOKEN>
+Authorization: Bearer <INVALID_JWT_TOKEN_INVALID_SIGNATURE>
 ```
 #### Response
 
