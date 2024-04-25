@@ -9,3 +9,4 @@ bcrypt==3.2.2
 pyjwt==2.8.0
 cryptography==3.4.6
 pytz==2024.1
+cachetools==5.3.3
