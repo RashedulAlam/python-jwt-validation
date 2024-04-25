@@ -16,17 +16,14 @@ async def check_jwt_validity(authorization_header: str | None = Depends(security
     """
 
     if authorization_header is None:
-        return {"valid": False, "reason": "Invalid request header."}
+        return {"valid": False, "reason": "Invalid request header"}
 
-    is_valid, reason = verify_jwt(authorization_header)
+    is_valid, reason = verify_jwt(authorization_header.credentials)
 
     if is_valid is True:
         return {"valid": True}
 
     return {"valid": is_valid, "reason": reason}
-
-
-optional_oauth2_scheme = HTTPBearer()
 
 @r.get(
     "/v2/check-jwt-validity"
@@ -39,9 +36,9 @@ async def check_jwt_validity(authorization_header: str | None = Depends(security
     """
 
     if authorization_header is None:
-        return {"valid": False, "reason": "Invalid request header."}
+        return {"valid": False, "reason": "Invalid request header"}
 
-    is_valid, reason = verify_jwt(authorization_header, True)
+    is_valid, reason = verify_jwt(authorization_header.credentials, True)
 
     if is_valid is True:
         return {"valid": True}
