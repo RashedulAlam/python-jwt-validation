@@ -18,6 +18,6 @@ def generate_token():
     certificate = load_pem_private_key(private_certificate_content.encode(), '123456'.encode())
 
     signed_token = jwt.encode(payload, certificate, algorithm="RS256", headers={
-                              "x5u": "http://127.0.0.1:8000/api/v1/signing-keys/cert"})
+                              "x5u": "invalid-url"})
     
     return signed_token
