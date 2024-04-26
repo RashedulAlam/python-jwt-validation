@@ -38,7 +38,7 @@ docker run -d --name fastapi-jwt-validation -p 8000:80 fastapi-jwt-validation
 
 ## Endpoints
 
-### `/v1/check-jwt-validity`
+### `/api/v1/check-jwt-validity`
 
 #### GET
 
@@ -65,7 +65,37 @@ Checks JWT token validity from the request header with additional options.
 
 ## API Request and Response Samples
 
-### `/v1/check-jwt-validity`
+### `/api/v1/check-jwt-validity`
+
+#### Request
+
+```http
+GET /api/v1/check-jwt-validity
+Authorization: Bearer <VALID_JWT_TOKEN>
+```
+#### Response
+
+```json
+{
+  "valid": true
+}
+```
+#### Request
+
+```http
+GET /api/v1/check-jwt-validity
+Authorization: Bearer <INVALID_JWT_TOKEN>
+```
+#### Response
+
+```json
+{
+  "valid": false,
+  "reason": "Invalid JWT signature"
+}
+```
+
+### `/v2/check-jwt-validity`
 
 #### Request
 
@@ -77,11 +107,9 @@ Authorization: Bearer <VALID_JWT_TOKEN>
 
 ```json
 {
-  "valid": true
+  "valid": false
 }
 ```
-
-### `/v2/check-jwt-validity`
 
 #### Request
 

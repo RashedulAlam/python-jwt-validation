@@ -1,9 +1,8 @@
 import requests
 import jwt
-from cryptography.x509 import load_pem_x509_certificate
-from cryptography.hazmat.backends import default_backend
 from datetime import datetime, timezone
 from cachetools import TTLCache
+from cryptography.hazmat.primitives.serialization import load_pem_public_key
 
 CACHE_TTL_SECONDS = 3600
 
@@ -12,13 +11,12 @@ certificate_cache = TTLCache(maxsize=100, ttl=CACHE_TTL_SECONDS)
 
 def get_certificate_from_url(url):
     certificate_response = requests.get(url)
-    
+
     if certificate_response.status_code != 200:
         raise requests.RequestException('Unable to load certificate')
-    
+
     certificate_pem = certificate_response.text
-    certificate = load_pem_x509_certificate(
-        certificate_pem.encode(), default_backend())
+    certificate = load_pem_public_key(certificate_pem.encode())
 
     return certificate
 
@@ -50,10 +48,10 @@ def verify_jwt(jwt_token, use_cache=False):
 
     except jwt.exceptions.DecodeError:
         return False, "Invalid JWT segements"
-    
+
     except Exception:
         return False, "Unknown JWT token error"
-    
+
     jwt_header = jwt.get_unverified_header(jwt_token)
     jwt_payload = decoded_jwt
 
@@ -69,8 +67,7 @@ def verify_jwt(jwt_token, use_cache=False):
 
             jwt_algorithm = jwt_header['alg']
 
-            jwt.decode(jwt_token, certificate.public_key(),
-                       algorithms=[jwt_algorithm])
+            jwt.decode(jwt_token, certificate, algorithms=[jwt_algorithm])
 
         except jwt.InvalidSignatureError:
             return False, "Invalid JWT signature"

@@ -43,4 +43,4 @@ async def check_jwt_validity(authorization_header: str | None = Depends(security
     if is_valid is True:
         return {"valid": True}
 
-    return {"valid": is_valid, reason: reason}
+    return {"valid": is_valid, "reason": reason}
