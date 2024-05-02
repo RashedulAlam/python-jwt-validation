@@ -74,6 +74,13 @@ def verify_jwt(jwt_token, use_cache=False):
 
         except requests.exceptions.RequestException:
             return False, f"Error fetching certificate"
+        
+        except jwt.ExpiredSignatureError:
+            return False, f"Token expired"
+        
+        except Exception as e:
+            print(e)
+            return False, f"Unknown error"
 
     else:
         return False, "Invalid JWT signing keys"
@@ -83,7 +90,7 @@ def verify_jwt(jwt_token, use_cache=False):
             return False, "Invalid JWT issue at"
 
         if 'exp' not in jwt_payload:
-            return False, "Invalid JWT expiration at"
+            return False, "Invalid JWT expiration exp"
 
     current_time = datetime.now(timezone.utc).timestamp()
 
